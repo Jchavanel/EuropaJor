@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Fondo cuadrado redondeado (igual que .brand-logo) -->
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5A843;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C46A0A;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="40" fill="url(#grad)"/>
+  <!-- Overlay brillo -->
+  <rect width="200" height="200" rx="40" fill="url(#shine)" opacity="0.2"/>
+  <defs>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#ffffff;stop-opacity:0" />
+    </linearGradient>
+  </defs>
+  <!-- Icono llave inglesa -->
+  <g transform="translate(100,100)" fill="none" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 14 -38 a 28 28 0 0 0 -28 28 l 0 8 l -36 36 a 5 5 0 0 0 0 8 l 8 8 a 5 5 0 0 0 8 0 l 36 -36 l 8 0 a 28 28 0 0 0 28 -28 a 28 28 0 0 0 -3 -12 l -16 16 l -12 -4 l -4 -12 l 16 -16 a 28 28 0 0 0 -5 -2 z"/>
+  </g>
+  <!-- Texto TE debajo del icono (opcional) -->
+  <!-- Descomentar si prefieres iniciales en lugar de icono -->
+  <!--
+  <text x="100" y="140" text-anchor="middle"
+    font-family="Arial Narrow, sans-serif" font-size="72" font-weight="900"
+    fill="white" letter-spacing="-2">TE</text>
+  -->
+</svg>

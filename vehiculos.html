@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehículos de ocasión revisados en taller propio | Europa Jor Vecindario, Gran Canaria</title>
+  <meta name="description" content="Vehículos de ocasión revisados en taller propio en Vecindario, Gran Canaria. Coches de segunda mano garantizados, listos para entrega y con financiación disponible en Europa Jor.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://europajor.es/vehiculos.html">
+  <link rel="icon" type="image/png" href="assets/brand/favicon/favicon.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0A0A0A">
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Vehículos de ocasión revisados en taller propio — Europa Jor">
+  <meta property="og:description" content="Vehículos de ocasión revisados por mecánicos expertos en Vecindario, Gran Canaria, con entrega lista y garantía mecánica.">
+  <meta property="og:url"         content="https://europajor.es/vehiculos.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+
+  <style>
+  /* ══════════════════════════════════════════════════════════
+     VEHÍCULOS — Estilos completos
+  ══════════════════════════════════════════════════════════ */
+
+  /* ── Hero ─────────────────────────────────────── */
+  .veh-hero {
+    background: var(--ink); padding: 120px 0 72px;
+    position: relative; overflow: hidden;
+  }
+  .veh-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(232,134,26,.12) 0%, transparent 70%),
+      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,255,255,.022) 80px);
+  }
+  .hero-inner { position: relative; display: flex; flex-direction: column; gap: 14px; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-body); font-size: .75rem; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--amber); width: fit-content;
+  }
+  .hero-tag::before { content: ''; width: 24px; height: 2px; background: var(--amber); display: inline-block; }
+  .hero-h1 {
+    font-family: var(--font-display); font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 900; line-height: .95; color: var(--white);
+    text-transform: uppercase; letter-spacing: -.02em; margin: 0;
+  }
+  .hero-h1 em { font-style: normal; color: var(--amber); }
+  .hero-sub { font-family: var(--font-body); font-size: 1.05rem; color: rgba(255,255,255,.5); max-width: 520px; }
+  .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 100px; padding: 6px 14px;
+    font-family: var(--font-body); font-size: .8rem; font-weight: 600; color: rgba(255,255,255,.65);
+  }
+
+  /* ── Barra filtros ───────────────────────────── */
+  .filter-bar {
+    background: var(--cream); border-bottom: 1px solid var(--cream-dk);
+    padding: 16px 0; position: sticky; top: 0; z-index: var(--z-nav);
+    box-shadow: 0 4px 20px rgba(0,0,0,.06);
+  }
+  .filter-inner { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+  .filter-lbl {
+    font-family: var(--font-body); font-size: .73rem; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--steel); flex-shrink: 0;
+  }
+  .f-input, .f-select {
+    font-family: var(--font-body); font-size: .875rem; font-weight: 500;
+    color: var(--ink); background: var(--white); border: 1.5px solid var(--cream-dk);
+    border-radius: 8px; padding: 8px 11px; transition: border-color var(--t);
+  }
+  .f-input  { width: 190px; }
+  .f-input:focus, .f-select:focus { outline: none; border-color: var(--amber); }
+  .filter-count { margin-left: auto; font-family: var(--font-body); font-size: .83rem; font-weight: 600; color: var(--steel); }
+  .filter-count strong { color: var(--amber); }
+
+  /* ── Sección grid ────────────────────────────── */
+  .veh-section { background: var(--cream); padding: 44px 0 80px; min-height: 50vh; }
+  .veh-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 26px;
+  }
+
+  /* ── Card ─────────────────────────────────────── */
+  .vcard {
+    background: var(--white); border-radius: 18px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    overflow: hidden; display: flex; flex-direction: column;
+    cursor: pointer; transition: transform .22s, box-shadow .22s;
+  }
+  .vcard:hover { transform: translateY(-5px); box-shadow: 0 12px 36px rgba(0,0,0,.13); }
+  .vcard:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+  /* Mini-slider de la card */
+  .cs-wrap { position: relative; aspect-ratio: 16/10; overflow: hidden; background: #e8e0d5; }
+  .cs-track { display: flex; height: 100%; transition: transform .32s ease; will-change: transform; }
+  .cs-slide { flex-shrink: 0; width: 100%; height: 100%; }
+  .cs-slide img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; user-select: none; }
+  .cs-ph {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; color: #a09080;
+  }
+  .cs-ph svg { width: 40px; height: 40px; opacity: .4; }
+  .cs-ph p { font-family: var(--font-body); font-size: .8rem; margin: 0; opacity: .6; }
+
+  /* Flechas mini-slider */
+  .cs-arr {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(0,0,0,.42); backdrop-filter: blur(4px);
+    border: none; color: #fff; font-size: 1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .18s; z-index: 3;
+  }
+  .cs-wrap:hover .cs-arr { opacity: 1; }
+  .cs-arr:hover { background: rgba(0,0,0,.65); }
+  .cs-arr-l { left: 8px; }
+  .cs-arr-r { right: 8px; }
+
+  /* Dots del mini-slider */
+  .cs-dots { position: absolute; bottom: 9px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; z-index: 3; }
+  .cs-dot  { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.4); border: none; cursor: pointer; transition: background .18s; padding: 0; }
+  .cs-dot.on { background: #fff; }
+  .cs-nfotos {
+    position: absolute; bottom: 9px; right: 10px;
+    background: rgba(0,0,0,.48); backdrop-filter: blur(4px);
+    color: #fff; font-size: .7rem; font-weight: 700; font-family: var(--font-body);
+    padding: 2px 8px; border-radius: 100px; z-index: 3;
+  }
+
+  /* Badges de estado */
+  .cs-badges { position: absolute; top: 9px; left: 9px; display: flex; gap: 5px; z-index: 4; }
+  .badge-pill {
+    font-family: var(--font-body); font-size: .67rem; font-weight: 800;
+    letter-spacing: .04em; text-transform: uppercase; padding: 3px 9px; border-radius: 100px;
+  }
+  .badge-pill.disponible { background: #D1FAE5; color: #065F46; }
+  .badge-pill.reservado  { background: #FEF3C7; color: #92400E; }
+  .badge-pill.vendido    { background: #FEE2E2; color: #991B1B; }
+  .badge-pill.destacado  { background: var(--amber); color: #fff; }
+
+  /* Cuerpo card */
+  .vcard-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+  .vcard-title {
+    font-family: var(--font-display); font-size: 1.3rem; font-weight: 900;
+    line-height: 1.1; color: var(--ink); text-transform: uppercase; letter-spacing: -.01em;
+  }
+  .vcard-title small { font-weight: 400; font-size: .88rem; color: var(--steel); display: block; }
+  .vcard-mat { font-family: var(--font-body); font-size: .77rem; font-weight: 800; letter-spacing: .09em; color: var(--amber); margin-top: -2px; }
+  .vcard-specs { display: flex; flex-wrap: wrap; gap: 5px; }
+  .spec-chip {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-family: var(--font-body); font-size: .74rem; font-weight: 600;
+    color: var(--steel); background: var(--cream); border-radius: 5px; padding: 3px 8px;
+  }
+  .vcard-bottom {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-top: auto; padding-top: 11px; border-top: 1px solid var(--cream-dk);
+  }
+  .vcard-price {
+    font-family: var(--font-display); font-size: 1.7rem; font-weight: 900; color: var(--ink); line-height: 1;
+  }
+  .vcard-price .iva { font-family: var(--font-body); font-size: .68rem; font-weight: 500; color: var(--steel-lt); display: block; margin-top: 1px; }
+  .btn-wa {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #25D366; color: #fff; font-family: var(--font-body);
+    font-size: .82rem; font-weight: 700; border: none; border-radius: 8px;
+    padding: 9px 13px; cursor: pointer; text-decoration: none; transition: background .18s;
+  }
+  .btn-wa:hover { background: #1ebd5a; }
+  .btn-wa svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* ── Modal detalle con slider ─────────────────── */
+  .det-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.85);
+    z-index: 500; display: flex; align-items: center; justify-content: center;
+    padding: 10px; opacity: 0; pointer-events: none; transition: opacity .24s;
+  }
+  .det-overlay.open { opacity: 1; pointer-events: all; }
+  .det-box {
+    background: var(--white); border-radius: 22px;
+    max-width: 920px; width: 100%; max-height: 95vh; overflow-y: auto;
+    scrollbar-width: thin; scrollbar-color: rgba(0,0,0,.12) transparent;
+    transform: scale(.97); transition: transform .24s;
+  }
+  .det-overlay.open .det-box { transform: scale(1); }
+
+  /* Slider principal modal */
+  .sl-wrap { position: relative; background: #0d0d0d; border-radius: 22px 22px 0 0; overflow: hidden; }
+  .sl-stage { aspect-ratio: 16/9; overflow: hidden; position: relative; }
+  .sl-track { display: flex; height: 100%; transition: transform .4s cubic-bezier(.4,0,.2,1); will-change: transform; }
+  .sl-slide { flex-shrink: 0; width: 100%; height: 100%; }
+  .sl-slide img { width: 100%; height: 100%; object-fit: contain; display: block; background: #0d0d0d; user-select: none; }
+  .sl-ph { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: rgba(255,255,255,.25); }
+  .sl-ph svg { width: 56px; height: 56px; }
+
+  /* Controles slider modal */
+  .sl-arr {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 46px; height: 46px; border-radius: 50%;
+    background: rgba(255,255,255,.1); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.15); color: #fff;
+    font-size: 1.4rem; cursor: pointer; z-index: 4;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .18s;
+  }
+  .sl-arr:hover { background: rgba(255,255,255,.24); }
+  .sl-arr-l { left: 14px; }
+  .sl-arr-r { right: 14px; }
+
+  /* Topbar slider modal */
+  .sl-topbar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 14px;
+    background: linear-gradient(to bottom, rgba(0,0,0,.6) 0%, transparent 100%);
+  }
+  .sl-counter {
+    font-family: var(--font-body); font-size: .78rem; font-weight: 700;
+    color: rgba(255,255,255,.8); background: rgba(0,0,0,.38); padding: 3px 10px; border-radius: 100px;
+  }
+  .sl-close {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(0,0,0,.4); backdrop-filter: blur(6px);
+    border: none; color: #fff; font-size: 1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: background .18s;
+  }
+  .sl-close:hover { background: rgba(0,0,0,.72); }
+
+  /* Tira de thumbnails */
+  .sl-strip {
+    display: flex; gap: 6px; padding: 9px 12px;
+    overflow-x: auto; background: rgba(0,0,0,.55); scrollbar-width: none;
+  }
+  .sl-strip::-webkit-scrollbar { display: none; }
+  .sl-thumb {
+    flex-shrink: 0; width: 68px; height: 48px; border-radius: 6px;
+    overflow: hidden; cursor: pointer;
+    border: 2px solid transparent; transition: border-color .18s;
+  }
+  .sl-thumb.on { border-color: var(--amber); }
+  .sl-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Cuerpo modal */
+  .det-body { padding: 26px 28px 28px; }
+  .det-estados { display: flex; gap: 7px; margin-bottom: 12px; }
+  .det-title {
+    font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 900; text-transform: uppercase; color: var(--ink); line-height: 1.05;
+  }
+  .det-title small { font-weight: 400; font-size: .95rem; color: var(--steel); display: block; }
+  .det-mat { font-family: var(--font-body); font-size: .82rem; font-weight: 800; letter-spacing: .09em; color: var(--amber); margin: 8px 0 18px; }
+  .det-specs { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 9px; margin-bottom: 18px; }
+  .det-spec-cell { background: var(--cream); border-radius: 10px; padding: 11px 13px; }
+  .det-spec-lbl  { font-family: var(--font-body); font-size: .66rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--steel); margin-bottom: 2px; }
+  .det-spec-val  { font-family: var(--font-body); font-size: .9rem; font-weight: 700; color: var(--ink); }
+  .det-desc { font-family: var(--font-body); font-size: .92rem; color: var(--steel); line-height: 1.65; margin-bottom: 22px; white-space: pre-wrap; }
+  .det-pricebar {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 14px; padding: 18px 22px; background: var(--ink); border-radius: 14px;
+  }
+  .det-price { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: #fff; line-height: 1; }
+  .det-price .iva { font-family: var(--font-body); font-size: .68rem; color: rgba(255,255,255,.38); font-weight: 500; }
+  .det-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-tel {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.1); color: #fff;
+    font-family: var(--font-body); font-size: .87rem; font-weight: 700;
+    border: 1px solid rgba(255,255,255,.15); border-radius: 8px; padding: 10px 16px;
+    text-decoration: none; transition: background .18s;
+  }
+  .btn-tel:hover { background: rgba(255,255,255,.2); }
+
+  /* ── Vacío / Loading ──────────────────────────── */
+  .veh-empty { grid-column: 1/-1; text-align: center; padding: 80px 20px; }
+  .veh-empty-icon { font-size: 3.5rem; margin-bottom: 14px; }
+  .veh-empty h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 900; text-transform: uppercase; color: var(--ink); margin-bottom: 8px; }
+  .veh-empty p  { font-family: var(--font-body); color: var(--steel); }
+  .veh-loading  { grid-column: 1/-1; text-align: center; padding: 80px; color: var(--steel); font-family: var(--font-body); }
+  .spinner { width: 36px; height: 36px; border: 3px solid var(--cream-dk); border-top-color: var(--amber); border-radius: 50%; animation: spin .75s linear infinite; margin: 0 auto 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Toast ────────────────────────────────────── */
+  .toast {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--ink); color: #fff; font-family: var(--font-body);
+    font-size: .9rem; font-weight: 600; padding: 12px 24px; border-radius: 100px;
+    z-index: 900; opacity: 0; transition: transform .3s, opacity .3s; white-space: nowrap;
+  }
+  .toast.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  /* ── Responsive ───────────────────────────────── */
+  @media (max-width: 768px) {
+    .veh-grid { grid-template-columns: 1fr; }
+    .f-input  { width: 130px; }
+    .filter-count { width: 100%; }
+    .sl-stage { aspect-ratio: 4/3; }
+    .det-body { padding: 18px 16px 22px; }
+    .det-specs { grid-template-columns: 1fr 1fr; }
+    .det-pricebar { flex-direction: column; align-items: stretch; }
+    .sl-strip { padding: 7px 10px; }
+    .sl-thumb { width: 56px; height: 38px; }
+  }
+  @media (max-width: 480px) {
+    .veh-hero { padding: 100px 0 52px; }
+    .sl-stage { aspect-ratio: 1/1; }
+    .det-title { font-size: 1.5rem; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header class="site-header" id="inicio">
+  <div class="wrap nav-wrap">
+    <a class="brand" href="index.html" aria-label="Europa Jor Automotive Service — Inicio">
+      <div class="brand-logo">
+        <img src="assets/brand/logo/logo-europa-jor.png" alt="Europa Jor" width="80" height="54"
+             fetchpriority="high" decoding="async">
+      </div>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
+      <ul role="list">
+        <li><a href="index.html#servicios">Servicios</a></li>
+        <li><a href="index.html#taller">Taller</a></li>
+        <li><a href="vehiculos.html" aria-current="page">Vehículos</a></li>
+        <li><a href="index.html#opiniones">Opiniones</a></li>
+        <li><a href="index.html#contacto">Contacto</a></li>
+        <li><a href="index.html#cita" class="nav-cta">Pedir cita</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ══ HERO ══ -->
+<section class="veh-hero" aria-label="Cabecera vehículos">
+  <div class="wrap hero-inner">
+    <div class="hero-tag">Europa Jor · Ocasión</div>
+    <h1 class="hero-h1">Vehículos de<br><em>ocasión</em></h1>
+    <p class="hero-sub">Todos los vehículos pasan por nuestra revisión completa de 25 puntos en nuestro taller multimarca de Vecindario antes de ponerse a la venta.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">✔ Revisados en taller propio</span>
+      <span class="hero-badge">✔ Historial verificado</span>
+      <span class="hero-badge">✔ Garantía mecánica incluida</span>
+      <span class="hero-badge">✔ Financiación disponible</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FILTROS ══ -->
+<div class="filter-bar" role="search" aria-label="Buscar vehículos">
+  <div class="wrap filter-inner">
+    <span class="filter-lbl">Buscar</span>
+    <input type="search" class="f-input" id="f-search" placeholder="Marca, modelo o versión…" autocomplete="off" aria-label="Buscar vehículo">
+    <span class="filter-count"><strong id="count-n">0</strong> vehículos</span>
+  </div>
+</div>
+
+<!-- ══ GRID ══ -->
+<section class="veh-section" aria-label="Catálogo de vehículos">
+  <div class="wrap">
+    <div class="veh-grid" id="veh-grid" aria-live="polite" aria-label="Lista de vehículos">
+      <div class="veh-loading"><div class="spinner"></div>Cargando vehículos…</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MODAL DETALLE ══ -->
+<div class="det-overlay" id="det-overlay" role="dialog" aria-modal="true" aria-label="Detalle del vehículo">
+  <div class="det-box" id="det-box"></div>
+</div>
+
+<!-- ══ TOAST ══ -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ══ FOOTER ══ -->
+<footer class="site-footer" role="contentinfo">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="index.html">
+        <div class="brand-logo">
+          <img src="assets/brand/logo/logo-europa-jor.png" alt="Europa Jor" width="260" height="174" loading="lazy" decoding="async">
+        </div>
+      </a>
+      <p>Taller mecánico y compraventa de vehículos en Vecindario, Gran Canaria. Todos nuestros coches pasan revisión completa antes de la venta.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Ocasión</h4>
+      <ul>
+        <li><a href="vehiculos.html">Ver todos los coches</a></li>
+        <li><a href="vehiculos.html">Catálogo disponible</a></li>
+        <li><a href="index.html#cita">Reservar prueba de conducción</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Taller</h4>
+      <ul>
+        <li><a href="index.html#servicios">Servicios</a></li>
+        <li><a href="index.html#proceso">Cómo trabajamos</a></li>
+        <li><a href="index.html#opiniones">Opiniones</a></li>
+        <li><a href="index.html#cita">Pedir cita</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="tel:+34638317126">638 317 126</a></li>
+        <li><a href="https://wa.me/34638317126" target="_blank" rel="noopener noreferrer">WhatsApp directo</a></li>
+        <li><a href="https://maps.google.com/?q=Calle+La+Centr%C3%ADfuga+62,+Vecindario" target="_blank" rel="noopener noreferrer">Cómo llegar</a></li>
+        <li style="color:rgba(255,255,255,.33);font-size:.82rem;">Lun–Vie: 8:00–19:00</li>
+        <li style="color:rgba(255,255,255,.33);font-size:.82rem;">Sáb: 9:00–13:00</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© 2026 Europa Jor. Todos los derechos reservados.</p>
+    <nav class="footer-legal" aria-label="Legal">
+      <a href="legal/aviso-legal.html">Aviso legal</a>
+      <a href="legal/privacidad.html">Privacidad</a>
+      <a href="legal/cookies.html">Cookies</a>
+      <a href="legal/accesibilidad.html">Accesibilidad</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ── CONFIG ─────────────────────────────────────────── */
+  var TEL    = (window.EJConfig && window.EJConfig.taller && window.EJConfig.taller.telefono) || '638317126';
+  var WA_NUM = (window.EJConfig && window.EJConfig.taller && window.EJConfig.taller.whatsapp) || '34638317126';
+  var cfg    = (window.EJConfig && window.EJConfig.firebase) || {};
+  var FB_URL = (cfg.databaseURL || '').replace(/\/$/, '');
+  var useFB  = !!FB_URL && FB_URL.indexOf('TU-PROYECTO') < 0;
+  var LS_KEY = 'ej_vehiculos_v1';
+
+  /* ── DATOS ──────────────────────────────────────────── */
+  async function loadVehs() {
+    var localData = {};
+    try { localData = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); }
+    catch (e) {}
+
+    if (!useFB) return localData;
+
+    try {
+      var r = await fetch(FB_URL + '/vehiculos.json');
+      if (r.ok) {
+        var fbData = await r.json();
+        if (fbData && Object.keys(fbData).length > 0) {
+          try { localStorage.setItem(LS_KEY, JSON.stringify(fbData)); } catch(e) {}
+          return fbData;
+        }
+      }
+    } catch (e) {
+      console.warn('[EJ] Firebase no alcanzable, usando localStorage');
+    }
+    return localData;
+  }
+
+  /* ── ESTADO ─────────────────────────────────────────── */
+  var all = [], filtered = [];
+  var cardIdx = {};    // { id: currentIndex }
+
+  /* ── HELPERS ────────────────────────────────────────── */
+  function esc(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                          .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function fmtKm(n) { return Number(n).toLocaleString('es-ES') + ' km'; }
+  function fmtP(n)  { return Number(n).toLocaleString('es-ES') + ' €'; }
+  function toast(msg) {
+    var t = document.getElementById('toast');
+    if (!t) return;
+    t.textContent = msg; t.className = 'toast visible';
+    setTimeout(function () { t.classList.remove('visible'); }, 3000);
+  }
+
+  /* ── MINI-SLIDER (cards) ────────────────────────────── */
+  function setCardSlide(id, idx, total) {
+    cardIdx[id] = idx;
+    var track = document.getElementById('cst-' + id);
+    if (track) track.style.transform = 'translateX(' + (-idx * 100) + '%)';
+    document.querySelectorAll('.csd-' + id).forEach(function (d, i) {
+      d.classList.toggle('on', i === idx);
+    });
+  }
+
+  /* ── RENDER GRID ────────────────────────────────────── */
+  function renderGrid() {
+    var grid = document.getElementById('veh-grid');
+    document.getElementById('count-n').textContent = filtered.length;
+
+    if (!filtered.length) {
+      grid.innerHTML =
+        '<div class="veh-empty">' +
+          '<div class="veh-empty-icon">🚗</div>' +
+          '<h3>Sin vehículos</h3>' +
+          '<p>No hay vehículos que coincidan con tu búsqueda.<br>Prueba con otra marca, modelo o versión.</p>' +
+        '</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(function (v) {
+      var id    = v.id;
+      var fotos = v.fotos || [];
+      var nf    = fotos.length;
+      cardIdx[id] = 0;
+
+      /* Slides */
+      var slidesHTML = nf
+        ? fotos.map(function (f, i) {
+            return '<div class="cs-slide">' +
+              '<img src="' + esc(f) + '" alt="' + esc(v.marca) + ' ' + esc(v.modelo) + ' foto ' + (i+1) + '" loading="' + (i===0?'eager':'lazy') + '" draggable="false">' +
+            '</div>';
+          }).join('')
+        : '<div class="cs-slide cs-ph">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9l2-4h14l2 4M3 9v10h18V9M3 9h18"/><circle cx="12" cy="13" r="3"/></svg>' +
+            '<p>Sin fotos</p>' +
+          '</div>';
+
+      var arrows = nf > 1
+        ? '<button class="cs-arr cs-arr-l" data-id="' + id + '" data-dir="-1" data-n="' + nf + '" aria-label="Anterior">&#8249;</button>' +
+          '<button class="cs-arr cs-arr-r" data-id="' + id + '" data-dir="1"  data-n="' + nf + '" aria-label="Siguiente">&#8250;</button>'
+        : '';
+
+      var dots = nf > 1
+        ? '<div class="cs-dots">' + fotos.map(function (_, i) {
+            return '<button class="cs-dot' + (i===0?' on':'') + ' csd-' + id + '" data-id="' + id + '" data-i="' + i + '" aria-label="Foto ' + (i+1) + '"></button>';
+          }).join('') + '</div>'
+        : '';
+
+      var est  = v.estado || 'disponible';
+      var estL = est === 'disponible' ? 'Disponible' : est === 'reservado' ? 'Reservado' : 'Vendido';
+
+      var specs = [
+        v.anyo        ? '📅 ' + v.anyo          : null,
+        v.km != null  ? '🛣 ' + fmtKm(v.km)     : null,
+        v.combustible ? '⛽ ' + esc(v.combustible) : null,
+        v.transmision ? '⚙️ ' + esc(v.transmision): null,
+      ].filter(Boolean).map(function (s) { return '<span class="spec-chip">' + s + '</span>'; }).join('');
+
+      var waMsg = encodeURIComponent('Hola, me interesa el ' + v.marca + ' ' + v.modelo + (v.matricula ? ' (' + v.matricula + ')' : '') + ' de europajor.es');
+
+      return (
+        '<article class="vcard" data-id="' + id + '" role="button" tabindex="0"' +
+            ' aria-label="Ver detalles de ' + esc(v.marca) + ' ' + esc(v.modelo) + '">' +
+          '<div class="cs-wrap" data-id="' + id + '">' +
+            '<div class="cs-track" id="cst-' + id + '">' + slidesHTML + '</div>' +
+            arrows +
+            dots +
+            (nf > 1 ? '<div class="cs-nfotos">📷 ' + nf + '</div>' : '') +
+            '<div class="cs-badges">' +
+              (v.destacado ? '<span class="badge-pill destacado">⭐ Destacado</span>' : '') +
+              '<span class="badge-pill ' + est + '">' + estL + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="vcard-body">' +
+            '<div class="vcard-title">' + esc(v.marca) + ' ' + esc(v.modelo) +
+              (v.version ? '<small>' + esc(v.version) + '</small>' : '') +
+            '</div>' +
+            (v.matricula ? '<div class="vcard-mat">🪪 ' + esc(v.matricula) + '</div>' : '') +
+            (specs ? '<div class="vcard-specs">' + specs + '</div>' : '') +
+            '<div class="vcard-bottom">' +
+              '<div class="vcard-price">' + fmtP(v.precio) + '<span class="iva">IVA incluido</span></div>' +
+              '<a class="btn-wa" href="https://wa.me/' + WA_NUM + '?text=' + waMsg + '"' +
+                 ' target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" aria-label="Preguntar por WhatsApp">' +
+                '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.526 5.842L0 24l6.293-1.654A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.645-.49-5.18-1.346l-.371-.22-3.735.981.997-3.644-.242-.376A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>' +
+                'WhatsApp' +
+              '</a>' +
+            '</div>' +
+          '</div>' +
+        '</article>'
+      );
+    }).join('');
+
+    /* ── Listeners mini-sliders ── */
+    grid.querySelectorAll('.cs-arr').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var id  = btn.dataset.id,  dir = parseInt(btn.dataset.dir), n = parseInt(btn.dataset.n);
+        setCardSlide(id, ((cardIdx[id] || 0) + dir + n) % n, n);
+      });
+    });
+    grid.querySelectorAll('.cs-dot').forEach(function (dot) {
+      dot.addEventListener('click', function (e) {
+        e.stopPropagation();
+        setCardSlide(dot.dataset.id, parseInt(dot.dataset.i), filtered.find(function(x){return x.id===dot.dataset.id;}).fotos.length);
+      });
+    });
+
+    /* Swipe touch en mini-sliders */
+    grid.querySelectorAll('.cs-wrap').forEach(function (wrap) {
+      var id  = wrap.dataset.id;
+      var v   = filtered.find(function (x) { return x.id === id; });
+      var nf  = v && v.fotos ? v.fotos.length : 0;
+      if (nf < 2) return;
+      var sx = 0;
+      wrap.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+      wrap.addEventListener('touchend',   function (e) {
+        var dx = e.changedTouches[0].clientX - sx;
+        if (Math.abs(dx) < 35) return;
+        setCardSlide(id, ((cardIdx[id] || 0) + (dx < 0 ? 1 : -1) + nf) % nf, nf);
+      }, { passive: true });
+    });
+
+    /* Click card → modal */
+    grid.querySelectorAll('.vcard').forEach(function (card) {
+      function open() {
+        var v = filtered.find(function (x) { return x.id === card.dataset.id; });
+        if (v) openDet(v);
+      }
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('.cs-arr,.cs-dot,.btn-wa')) return;
+        open();
+      });
+      card.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') open(); });
+    });
+  }
+
+  /* ── MODAL DETALLE ──────────────────────────────────── */
+  var detCur = 0, detFotos = [];
+
+  function openDet(v) {
+    detFotos = v.fotos || [];
+    detCur   = 0;
+    var nf   = detFotos.length;
+    var box  = document.getElementById('det-box');
+
+    /* Slider principal */
+    var sliderHTML;
+    if (nf) {
+      var slides = detFotos.map(function (f, i) {
+        return '<div class="sl-slide">' +
+          '<img src="' + esc(f) + '" alt="Foto ' + (i+1) + '" loading="' + (i===0?'eager':'lazy') + '">' +
+        '</div>';
+      }).join('');
+      var strip = nf > 1 ? detFotos.map(function (f, i) {
+        return '<div class="sl-thumb' + (i===0?' on':'') + '" data-i="' + i + '">' +
+          '<img src="' + esc(f) + '" alt="Miniatura ' + (i+1) + '" loading="lazy">' +
+        '</div>';
+      }).join('') : '';
+
+      sliderHTML =
+        '<div class="sl-wrap">' +
+          '<div class="sl-stage">' +
+            '<div class="sl-topbar">' +
+              '<span class="sl-counter" id="sl-counter">1 / ' + nf + '</span>' +
+              '<button class="sl-close" id="sl-close" aria-label="Cerrar">✕</button>' +
+            '</div>' +
+            '<div class="sl-track" id="sl-track">' + slides + '</div>' +
+            (nf>1 ? '<button class="sl-arr sl-arr-l" id="sl-prev" aria-label="Anterior">&#8249;</button>' : '') +
+            (nf>1 ? '<button class="sl-arr sl-arr-r" id="sl-next" aria-label="Siguiente">&#8250;</button>' : '') +
+          '</div>' +
+          (nf>1 ? '<div class="sl-strip" id="sl-strip">' + strip + '</div>' : '') +
+        '</div>';
+    } else {
+      sliderHTML =
+        '<div class="sl-wrap">' +
+          '<div class="sl-stage">' +
+            '<div class="sl-topbar">' +
+              '<span class="sl-counter">Sin fotos</span>' +
+              '<button class="sl-close" id="sl-close" aria-label="Cerrar">✕</button>' +
+            '</div>' +
+            '<div class="sl-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 9l2-4h14l2 4M3 9v10h18V9"/><circle cx="12" cy="13" r="3"/></svg></div>' +
+          '</div>' +
+        '</div>';
+    }
+
+    /* Specs */
+    var specItems = [
+      { l:'Año',        v: v.anyo },
+      { l:'Kilómetros', v: v.km != null ? fmtKm(v.km) : null },
+      { l:'Combustible',v: v.combustible },
+      { l:'Transmisión',v: v.transmision },
+      { l:'Potencia',   v: v.potencia },
+      { l:'Color',      v: v.color },
+      { l:'Puertas',    v: v.puertas },
+    ].filter(function (s) { return s.v; });
+
+    var specsHTML = specItems.map(function (s) {
+      return '<div class="det-spec-cell">' +
+        '<div class="det-spec-lbl">' + esc(s.l) + '</div>' +
+        '<div class="det-spec-val">' + esc(String(s.v)) + '</div>' +
+      '</div>';
+    }).join('');
+
+    var est  = v.estado || 'disponible';
+    var estL = est === 'disponible' ? 'Disponible' : est === 'reservado' ? 'Reservado' : 'Vendido';
+    var waMsg = encodeURIComponent('Hola, me interesa el ' + v.marca + ' ' + v.modelo + (v.matricula?' ('+v.matricula+')':'') + ' que vi en europajor.es. ¿Podéis darme más información?');
+
+    box.innerHTML =
+      sliderHTML +
+      '<div class="det-body">' +
+        '<div class="det-estados">' +
+          (v.destacado ? '<span class="badge-pill destacado">⭐ Destacado</span>' : '') +
+          '<span class="badge-pill ' + est + '">' + estL + '</span>' +
+        '</div>' +
+        '<div class="det-title">' + esc(v.marca) + ' ' + esc(v.modelo) +
+          (v.version ? '<small>' + esc(v.version) + '</small>' : '') +
+        '</div>' +
+        (v.matricula ? '<div class="det-mat">🪪 ' + esc(v.matricula) + '</div>' : '') +
+        (specsHTML   ? '<div class="det-specs">' + specsHTML + '</div>' : '') +
+        (v.descripcion ? '<p class="det-desc">' + esc(v.descripcion) + '</p>' : '') +
+        '<div class="det-pricebar">' +
+          '<div class="det-price">' + fmtP(v.precio) + '<span class="iva"> IVA incluido</span></div>' +
+          '<div class="det-ctas">' +
+            '<a class="btn-tel" href="tel:+34' + TEL.replace(/\D/g,'') + '">📞 ' + esc(TEL) + '</a>' +
+            '<a class="btn-wa"  href="https://wa.me/' + WA_NUM + '?text=' + waMsg + '" target="_blank" rel="noopener noreferrer">' +
+              '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.526 5.842L0 24l6.293-1.654A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.645-.49-5.18-1.346l-.371-.22-3.735.981.997-3.644-.242-.376A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>' +
+              'Me interesa' +
+            '</a>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    /* Controles slider modal */
+    function goTo(i) {
+      detCur = (i + nf) % nf;
+      var track   = document.getElementById('sl-track');
+      var counter = document.getElementById('sl-counter');
+      if (track)   track.style.transform = 'translateX(' + (-detCur * 100) + '%)';
+      if (counter) counter.textContent   = (detCur + 1) + ' / ' + nf;
+      box.querySelectorAll('.sl-thumb').forEach(function (t, ti) {
+        t.classList.toggle('on', ti === detCur);
+        if (ti === detCur) t.scrollIntoView({ block: 'nearest', inline: 'center' });
+      });
+    }
+
+    var prev = document.getElementById('sl-prev');
+    var next = document.getElementById('sl-next');
+    if (prev) prev.addEventListener('click', function () { goTo(detCur - 1); });
+    if (next) next.addEventListener('click', function () { goTo(detCur + 1); });
+
+    box.querySelectorAll('.sl-thumb').forEach(function (t) {
+      t.addEventListener('click', function () { goTo(parseInt(t.dataset.i)); });
+    });
+
+    /* Swipe en slider modal */
+    var track = document.getElementById('sl-track');
+    if (track && nf > 1) {
+      var sx = 0;
+      track.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener('touchend',   function (e) {
+        var dx = e.changedTouches[0].clientX - sx;
+        if (Math.abs(dx) > 40) goTo(detCur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+    }
+
+    /* Teclado */
+    function onKey(e) {
+      if (e.key === 'ArrowLeft')  goTo(detCur - 1);
+      if (e.key === 'ArrowRight') goTo(detCur + 1);
+      if (e.key === 'Escape')     closeDet();
+    }
+    document.addEventListener('keydown', onKey);
+
+    /* Cerrar */
+    var closeBtn = document.getElementById('sl-close');
+    if (closeBtn) closeBtn.addEventListener('click', closeDet);
+
+    var overlay = document.getElementById('det-overlay');
+    overlay.addEventListener('click', function onBg(e) {
+      if (e.target === overlay) { closeDet(); overlay.removeEventListener('click', onBg); }
+    });
+
+    function closeDet() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKey);
+    }
+
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /* ── FILTROS ─────────────────────────────────────────── */
+  function applyFilters() {
+    var txt = (document.getElementById('f-search').value || '').toLowerCase().trim();
+
+    filtered = all.filter(function (v) {
+      if (!txt) return true;
+      return [v.marca, v.modelo, v.version].some(function (s) {
+        return s && s.toLowerCase().includes(txt);
+      });
+    });
+
+    /* Orden: destacados → disponibles → reservados → vendidos → precio asc */
+    filtered.sort(function (a, b) {
+      if (!!b.destacado !== !!a.destacado) return b.destacado ? 1 : -1;
+      var ord = { disponible: 0, reservado: 1, vendido: 2 };
+      var oa  = ord[a.estado || 'disponible'] || 0;
+      var ob  = ord[b.estado || 'disponible'] || 0;
+      if (oa !== ob) return oa - ob;
+      return (a.precio || 0) - (b.precio || 0);
+    });
+
+    renderGrid();
+  }
+
+  /* ── INIT ────────────────────────────────────────────── */
+  async function init() {
+    var raw = await loadVehs();
+    all = Object.keys(raw || {}).map(function (id) {
+      var v = raw[id]; v.id = id; return v;
+    });
+
+    applyFilters();
+  }
+
+  /* Listener búsqueda */
+  var searchInput = document.getElementById('f-search');
+  if (searchInput) {
+    searchInput.addEventListener('input', applyFilters);
+    searchInput.addEventListener('search', applyFilters);
+  }
+
+  /* Nav toggle mobile */
+  var navToggle = document.querySelector('.nav-toggle');
+  var mainNav   = document.getElementById('main-nav');
+  if (navToggle && mainNav) {
+    navToggle.addEventListener('click', function () {
+      var open = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!open));
+      mainNav.classList.toggle('open', !open);
+    });
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+# netlify.toml — Configuración de despliegue
+# ─────────────────────────────────────────────────────
+
+[build]
+  publish   = "."          # raíz del proyecto
+  functions = "netlify/functions"
+  command   = "npm install"   # instala web-push antes de cada deploy
+
+[functions]
+  node_bundler = "esbuild"   # empaqueta las dependencias automáticamente
+
+# Cabeceras de seguridad para toda la web
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options           = "SAMEORIGIN"
+    X-Content-Type-Options    = "nosniff"
+    Referrer-Policy           = "strict-origin-when-cross-origin"
+    Permissions-Policy        = "geolocation=(), camera=(), microphone=()"
+
+# Cabeceras específicas para el Service Worker
+# (debe servirse sin caché y con scope correcto)
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control             = "no-cache, no-store, must-revalidate"
+    Service-Worker-Allowed    = "/"
+
+# Redirigir /api/send-push → función serverless
+[[redirects]]
+  from   = "/api/send-push"
+  to     = "/.netlify/functions/send-push"
+  status = 200

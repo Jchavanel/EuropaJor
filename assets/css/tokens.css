@@ -1,0 +1,64 @@
+/*
+ * tokens.css — Design tokens compartidos en toda la web
+ * Importar PRIMERO en todas las páginas: <link rel="stylesheet" href="/assets/css/tokens.css">
+ * ─────────────────────────────────────────────────────────────────────────
+ */
+
+:root {
+  /* Colores principales */
+  --ink:        #0A0A0A;
+  --ink-soft:   #1C1C1E;
+  --ink-mid:    #2C2C2E;
+  --amber:      #E8861A;
+  --amber-lt:   #F5A843;
+  --amber-dk:   #C46A0A;
+  --cream:      #F7F3EC;
+  --cream-dk:   #EDE7DC;
+  --steel:      #6B6B6B;
+  --steel-lt:   #A0A0A0;
+  --white:      #FFFFFF;
+  --success:    #1A7A3C;
+  --wa:         #25D366;
+  --error:      #DC2626;
+
+  /* Tipografía */
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-body:    'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Espaciado */
+  --space-xs:   4px;
+  --space-sm:   8px;
+  --space-md:   16px;
+  --space-lg:   24px;
+  --space-xl:   40px;
+  --space-2xl:  64px;
+  --space-3xl:  96px;
+
+  /* Bordes */
+  --r:    12px;
+  --r-lg: 20px;
+  --r-xl: 32px;
+
+  /* Sombras */
+  --shadow-sm:  0 2px 12px rgba(0,0,0,0.08);
+  --shadow-md:  0 8px 32px rgba(0,0,0,0.12);
+  --shadow-lg:  0 24px 64px rgba(0,0,0,0.18);
+  --shadow-amber: 0 8px 28px rgba(232,134,26,0.35);
+
+  /* Transiciones */
+  --t: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Contenedor */
+  --container: 1200px;
+
+  /* Z-index */
+  --z-base:    1;
+  --z-above:   10;
+  --z-nav:     100;
+  --z-modal:   500;
+  --z-toast:   900;
+  --z-float:   200;
+}
+
+/* ─── Modo oscuro del sistema (preparado para futuro) ─── */
+/* @media (prefers-color-scheme: dark) { ... } */

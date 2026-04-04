@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#1C1C1E"/>
+  <rect x="0" y="0" width="1200" height="700" fill="url(#grid)" opacity="0.04"/>
+  <defs>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#E8861A" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <!-- Icono llave inglesa centrado -->
+  <g transform="translate(560, 300)" opacity="0.15">
+    <path d="M 40 10 a 30 30 0 0 0 -30 30 l 0 10 l -40 40 a 6 6 0 0 0 0 8.5 l 8.5 8.5 a 6 6 0 0 0 8.5 0 l 40 -40 l 10 0 a 30 30 0 0 0 30 -30 a 30 30 0 0 0 -3 -13 l -18 18 l -15 -5 l -5 -15 l 18 -18 a 30 30 0 0 0 -4 -1 z" fill="#E8861A" transform="scale(1.5)"/>
+  </g>
+  <!-- Texto placeholder -->
+  <text x="600" y="400" text-anchor="middle" font-family="Arial Narrow, sans-serif" font-size="22" font-weight="700" fill="#E8861A" letter-spacing="4" opacity="0.6">FOTOGRAFÍA DEL TALLER</text>
+  <text x="600" y="435" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#6B6B6B" letter-spacing="2">Reemplazar por imagen real · 1200 × 700 px recomendado</text>
+</svg>
