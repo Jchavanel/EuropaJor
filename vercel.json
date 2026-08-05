@@ -1,23 +1,4 @@
 {
-  "version": 2,
-  "name": "europa-jor",
-  "functions": {
-    "api/send-push.js": {
-      "runtime": "nodejs20.x",
-      "memory": 256
-    }
-  },
-  "routes": [
-    {
-      "src": "/api/send-push",
-      "dest": "/api/send-push.js",
-      "methods": ["POST", "OPTIONS"]
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
   "headers": [
     {
       "source": "/sw.js",
@@ -33,7 +14,7 @@
       ]
     },
     {
-      "source": "/(.*)\.html",
+      "source": "/(.*).html",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache" }
       ]
