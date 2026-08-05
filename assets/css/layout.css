@@ -70,29 +70,18 @@
   text-decoration: none;
 }
 .brand-logo {
-  width: 48px; height: 48px;
-  background: linear-gradient(145deg, var(--amber) 0%, var(--amber-dk) 100%);
-  border-radius: 10px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
   flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
   transition: transform var(--t);
 }
-.brand:hover .brand-logo { transform: rotate(-4deg) scale(1.05); }
-.brand-logo::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
-}
+.brand:hover .brand-logo { transform: scale(1.04); }
 .brand-logo img {
-  width: 100%; height: 100%;
+  height: 44px;
+  width: auto;
   object-fit: contain;
-  padding: 6px;
-  position: relative;
-  z-index: 1;
+  mix-blend-mode: screen;
+  display: block;
 }
 /* Fallback SVG si no hay imagen */
 .brand-logo svg { position: relative; z-index: 1; }
