@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Vehículo — Europa Jor Automotive Service</title>
+  <meta name="description" id="page-desc" content="Vehículo de ocasión en venta en Europa Jor Automotive Service, Vecindario, Gran Canaria.">
+  <meta name="robots" content="index, follow">
+  <!-- OG tags actualizados por JS tras cargar el vehículo -->
+  <meta property="og:type"        content="product">
+  <meta property="og:site_name"   content="Europa Jor Automotive Service">
+  <meta property="og:url"         id="og-url"   content="">
+  <meta property="og:title"       id="og-title" content="Vehículo de ocasión — Europa Jor">
+  <meta property="og:description" id="og-desc"  content="Vehículo revisado y garantizado en Vecindario, Gran Canaria.">
+  <meta property="og:image"       id="og-img"   content="">
+  <link rel="icon" type="image/png" href="assets/brand/favicon/favicon.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0A0A0A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+
+  <style>
+  /* ══════════════════════════════════════════════════════
+     VEHICULO.HTML — Página de detalle individual
+  ══════════════════════════════════════════════════════ */
+
+  /* ── Breadcrumb ───────────────────────────────────── */
+  .vd-breadcrumb {
+    background: var(--ink);
+    padding: 90px 0 0;
+  }
+  .vd-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-body); font-size: .83rem; font-weight: 600;
+    color: rgba(255,255,255,.45); text-decoration: none;
+    transition: color var(--t);
+    padding: 12px 0 16px;
+  }
+  .vd-back:hover { color: var(--amber); }
+
+  /* ── Estado pill ──────────────────────────────────── */
+  .vd-estado {
+    display: inline-flex; gap: 7px; padding: 16px 0 10px;
+  }
+  .badge-pill {
+    font-family: var(--font-body); font-size: .72rem; font-weight: 800;
+    letter-spacing: .05em; text-transform: uppercase; padding: 4px 11px; border-radius: 100px;
+  }
+  .badge-pill.disponible { background: rgba(26,122,60,.2);  color: #4ade80; }
+  .badge-pill.reservado  { background: rgba(251,191,36,.2); color: #fbbf24; }
+  .badge-pill.vendido    { background: rgba(220,38,38,.2);  color: #f87171; }
+  .badge-pill.destacado  { background: var(--amber);        color: #fff; }
+
+  /* ── Layout principal ─────────────────────────────── */
+  .vd-section { background: var(--ink); padding-bottom: 80px; }
+  .vd-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 40px;
+    align-items: start;
+  }
+
+  /* ── Slider principal ─────────────────────────────── */
+  .vd-slider { position: sticky; top: 80px; }
+  .vd-stage {
+    aspect-ratio: 16/10; overflow: hidden; border-radius: 16px;
+    background: #111; position: relative;
+  }
+  .vd-track {
+    display: flex; height: 100%;
+    transition: transform .4s cubic-bezier(.4,0,.2,1);
+    will-change: transform;
+  }
+  .vd-slide { flex-shrink: 0; width: 100%; height: 100%; }
+  .vd-slide img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block; user-select: none;
+  }
+  .vd-ph {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; color: rgba(255,255,255,.2); font-family: var(--font-body);
+    background: #111; border-radius: 16px;
+  }
+  .vd-ph svg { width: 56px; height: 56px; opacity: .25; }
+
+  /* Flechas slider */
+  .vd-arr {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,.1); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.15);
+    color: #fff; font-size: 1.5rem; cursor: pointer; z-index: 3;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .18s; line-height: 1;
+  }
+  .vd-arr:hover { background: rgba(255,255,255,.22); }
+  .vd-arr-l { left: 12px; }
+  .vd-arr-r { right: 12px; }
+
+  /* Contador */
+  .vd-counter {
+    position: absolute; bottom: 12px; right: 14px;
+    font-family: var(--font-body); font-size: .78rem; font-weight: 700;
+    color: rgba(255,255,255,.8); background: rgba(0,0,0,.45);
+    padding: 3px 10px; border-radius: 100px; z-index: 3;
+  }
+
+  /* Tira de miniaturas */
+  .vd-strip {
+    display: flex; gap: 8px; margin-top: 10px;
+    overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
+  }
+  .vd-strip::-webkit-scrollbar { display: none; }
+  .vd-thumb {
+    flex-shrink: 0; width: 72px; height: 52px; border-radius: 8px;
+    overflow: hidden; cursor: pointer;
+    border: 2px solid transparent; transition: border-color .18s;
+  }
+  .vd-thumb.on { border-color: var(--amber); }
+  .vd-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ── Columna info ─────────────────────────────────── */
+  .vd-info { padding-top: 4px; }
+  .vd-marca {
+    font-family: var(--font-body); font-size: .78rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 6px;
+  }
+  .vd-title {
+    font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900; text-transform: uppercase; line-height: 1;
+    color: var(--white); letter-spacing: -.02em; margin-bottom: 4px;
+  }
+  .vd-version {
+    font-family: var(--font-body); font-size: 1rem; font-weight: 500;
+    color: rgba(255,255,255,.45); margin-bottom: 14px;
+  }
+  .vd-matricula {
+    display: inline-block;
+    font-family: var(--font-body); font-size: .85rem; font-weight: 800;
+    letter-spacing: .1em; color: var(--amber);
+    background: rgba(232,134,26,.1); border: 1px solid rgba(232,134,26,.2);
+    padding: 4px 12px; border-radius: 6px; margin-bottom: 20px;
+  }
+
+  /* Specs grid */
+  .vd-specs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    margin-bottom: 20px;
+  }
+  .vd-spec {
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.07);
+    border-radius: 10px; padding: 12px 14px;
+  }
+  .vd-spec-lbl {
+    font-family: var(--font-body); font-size: .68rem; font-weight: 700;
+    letter-spacing: .07em; text-transform: uppercase; color: var(--steel-lt);
+    margin-bottom: 3px;
+  }
+  .vd-spec-val {
+    font-family: var(--font-body); font-size: .92rem; font-weight: 700;
+    color: var(--white);
+  }
+
+  /* Descripción */
+  .vd-desc {
+    font-family: var(--font-body); font-size: .92rem; color: rgba(255,255,255,.5);
+    line-height: 1.7; white-space: pre-wrap; margin-bottom: 24px;
+  }
+
+  /* Price bar */
+  .vd-pricebar {
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px; padding: 20px 22px; margin-bottom: 14px;
+  }
+  .vd-price-lbl {
+    font-family: var(--font-body); font-size: .72rem; font-weight: 700;
+    letter-spacing: .07em; text-transform: uppercase; color: var(--steel-lt);
+    margin-bottom: 4px;
+  }
+  .vd-price {
+    font-family: var(--font-display); font-size: 2.8rem; font-weight: 900;
+    color: var(--white); line-height: 1; margin-bottom: 2px;
+  }
+  .vd-iva {
+    font-family: var(--font-body); font-size: .72rem; color: var(--steel);
+    margin-bottom: 16px;
+  }
+  .vd-ctas { display: flex; flex-direction: column; gap: 10px; }
+  .btn-wa-full {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: #25D366; color: #fff;
+    font-family: var(--font-body); font-size: .95rem; font-weight: 700;
+    border: none; border-radius: 10px; padding: 14px;
+    text-decoration: none; cursor: pointer; transition: background .18s;
+  }
+  .btn-wa-full:hover { background: #1ebd5a; }
+  .btn-wa-full svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .btn-tel-full {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: rgba(255,255,255,.08); color: var(--white);
+    font-family: var(--font-body); font-size: .95rem; font-weight: 700;
+    border: 1px solid rgba(255,255,255,.12); border-radius: 10px; padding: 13px;
+    text-decoration: none; cursor: pointer; transition: background .18s;
+  }
+  .btn-tel-full:hover { background: rgba(255,255,255,.14); }
+
+  /* Botón compartir */
+  .btn-share {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; background: transparent; color: var(--steel-lt);
+    font-family: var(--font-body); font-size: .85rem; font-weight: 600;
+    border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: 11px;
+    cursor: pointer; transition: color .18s, border-color .18s;
+  }
+  .btn-share:hover { color: var(--white); border-color: rgba(255,255,255,.25); }
+  .btn-share svg { width: 15px; height: 15px; }
+
+  /* Toast share */
+  .share-toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--amber); color: var(--ink);
+    font-family: var(--font-body); font-size: .88rem; font-weight: 700;
+    padding: 10px 22px; border-radius: 100px; z-index: 900;
+    opacity: 0; transition: transform .3s, opacity .3s; white-space: nowrap;
+  }
+  .share-toast.on { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  /* ── Loading / Error ──────────────────────────────── */
+  .vd-loading {
+    min-height: 60vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 16px;
+    color: var(--steel); font-family: var(--font-body);
+  }
+  .spinner {
+    width: 40px; height: 40px; border: 3px solid rgba(255,255,255,.1);
+    border-top-color: var(--amber); border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Responsive ───────────────────────────────────── */
+  @media (max-width: 900px) {
+    .vd-grid { grid-template-columns: 1fr; gap: 24px; }
+    .vd-slider { position: static; }
+    .vd-specs { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .vd-stage { aspect-ratio: 4/3; }
+    .vd-specs { grid-template-columns: 1fr; }
+    .vd-title { font-size: 2rem; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header class="site-header" id="inicio">
+  <div class="wrap nav-wrap">
+    <a class="brand" href="index.html" aria-label="Europa Jor Automotive Service — Inicio">
+      <div class="brand-logo">
+        <img src="assets/brand/logo/logo-europa-jor.png" alt="Europa Jor"
+             width="80" height="54" fetchpriority="high" decoding="async">
+      </div>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav"
+            aria-label="Abrir menú de navegación">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
+      <ul role="list">
+        <li><a href="index.html#servicios">Servicios</a></li>
+        <li><a href="index.html#taller">Taller</a></li>
+        <li><a href="vehiculos.html" aria-current="page">Vehículos</a></li>
+        <li><a href="index.html#opiniones">Opiniones</a></li>
+        <li><a href="index.html#contacto">Contacto</a></li>
+        <li><a href="index.html#cita" class="nav-cta">Pedir cita</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ══ CONTENIDO ══ -->
+<section class="vd-section" aria-label="Detalle del vehículo">
+  <div class="vd-breadcrumb">
+    <div class="wrap">
+      <a class="vd-back" href="vehiculos.html">← Volver al catálogo</a>
+    </div>
+  </div>
+
+  <div class="wrap" id="vd-main">
+    <!-- Cargando... -->
+    <div class="vd-loading" id="vd-loading">
+      <div class="spinner"></div>
+      <span>Cargando vehículo…</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="site-footer" role="contentinfo">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="index.html">
+        <div class="brand-logo">
+          <img src="assets/brand/logo/logo-europa-jor.png" alt="Europa Jor"
+               width="260" height="174" loading="lazy" decoding="async">
+        </div>
+      </a>
+      <p>Taller mecánico y compraventa de vehículos en Vecindario, Gran Canaria.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Ocasión</h4>
+      <ul>
+        <li><a href="vehiculos.html">Ver todos los coches</a></li>
+        <li><a href="index.html#cita">Pedir cita de prueba</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="tel:+34638317126">638 317 126</a></li>
+        <li><a href="https://wa.me/34638317126" target="_blank" rel="noopener noreferrer">WhatsApp directo</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© 2026 Europa Jor. Todos los derechos reservados.</p>
+    <nav class="footer-legal" aria-label="Legal">
+      <a href="legal/aviso-legal.html">Aviso legal</a>
+      <a href="legal/privacidad.html">Privacidad</a>
+      <a href="legal/cookies.html">Cookies</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- ══ TOAST COMPARTIR ══ -->
+<div class="share-toast" id="share-toast" role="status" aria-live="polite">
+  ✅ Enlace copiado al portapapeles
+</div>
+
+<script src="assets/js/config.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ── CONFIG ─────────────────────────────────────────── */
+  var TEL    = (window.EJConfig && window.EJConfig.taller && window.EJConfig.taller.telefono) || '638317126';
+  var WA_NUM = (window.EJConfig && window.EJConfig.taller && window.EJConfig.taller.whatsapp) || '34638317126';
+  var cfg    = (window.EJConfig && window.EJConfig.firebase) || {};
+  var FB_URL = (cfg.databaseURL || '').replace(/\/$/, '');
+  var useFB  = !!FB_URL && FB_URL.indexOf('TU-PROYECTO') < 0;
+  var LS_KEY = 'ej_vehiculos_v1';
+
+  /* ── LEER ID DE URL ─────────────────────────────────── */
+  var params = new URLSearchParams(location.search);
+  var VEH_ID = params.get('id');
+
+  /* ── HELPERS ────────────────────────────────────────── */
+  function esc(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                          .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function fmtKm(n) { return Number(n).toLocaleString('es-ES') + ' km'; }
+  function fmtP(n)  { return Number(n).toLocaleString('es-ES') + ' €'; }
+
+  /* ── CARGAR VEHÍCULO ────────────────────────────────── */
+  async function loadVehiculo(id) {
+    /* Intentar localStorage primero (cache rápida) */
+    var localData = {};
+    try {
+      var all = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+      if (all[id]) localData = all[id];
+    } catch (e) {}
+
+    if (!useFB) return localData[id] ? localData : null;
+
+    try {
+      var r = await fetch(FB_URL + '/vehiculos/' + id + '.json');
+      if (r.ok) {
+        var data = await r.json();
+        if (data) return data;
+      }
+    } catch (e) {}
+
+    return localData || null;
+  }
+
+  /* ── SLIDER ─────────────────────────────────────────── */
+  var cur = 0, total = 0;
+
+  function goTo(idx) {
+    cur = (idx + total) % total;
+    var track = document.getElementById('vd-track');
+    if (track) track.style.transform = 'translateX(' + (-cur * 100) + '%)';
+    var counter = document.getElementById('vd-counter');
+    if (counter) counter.textContent = (cur + 1) + ' / ' + total;
+    document.querySelectorAll('.vd-thumb').forEach(function (t, i) {
+      t.classList.toggle('on', i === cur);
+      if (i === cur) t.scrollIntoView({ block: 'nearest', inline: 'center' });
+    });
+  }
+
+  /* ── ACTUALIZAR META OG ─────────────────────────────── */
+  function updateMeta(v) {
+    var title = esc(v.marca) + ' ' + esc(v.modelo) +
+                (v.version ? ' ' + esc(v.version) : '') +
+                ' — Europa Jor';
+    var desc  = (v.anyo ? v.anyo + ' · ' : '') +
+                (v.km != null ? fmtKm(v.km) + ' · ' : '') +
+                fmtP(v.precio) + ' · Vecindario, Gran Canaria';
+
+    document.title = title;
+    var el;
+    el = document.getElementById('page-title');   if (el) el.textContent = title;
+    el = document.getElementById('page-desc');    if (el) el.setAttribute('content', desc);
+    el = document.getElementById('og-title');     if (el) el.setAttribute('content', title);
+    el = document.getElementById('og-desc');      if (el) el.setAttribute('content', desc);
+    el = document.getElementById('og-url');       if (el) el.setAttribute('content', location.href);
+    if (v.fotos && v.fotos[0]) {
+      el = document.getElementById('og-img');     if (el) el.setAttribute('content', v.fotos[0]);
+    }
+  }
+
+  /* ── RENDER PÁGINA ──────────────────────────────────── */
+  function render(v) {
+    updateMeta(v);
+
+    var fotos  = v.fotos || [];
+    total = fotos.length;
+    var est    = v.estado || 'disponible';
+    var estLbl = est === 'disponible' ? 'Disponible' : est === 'reservado' ? 'Reservado' : 'Vendido';
+    var pageURL = location.href;
+    var waShare = encodeURIComponent(
+      '🚗 Mira este ' + v.marca + ' ' + v.modelo +
+      (v.matricula ? ' (' + v.matricula + ')' : '') +
+      ' en Europa Jor:\n' + pageURL
+    );
+    var waCita  = encodeURIComponent(
+      'Hola, me interesa el ' + v.marca + ' ' + v.modelo +
+      (v.matricula ? ' (' + v.matricula + ')' : '') +
+      ' que vi en europajor.es. ¿Podéis darme más información?'
+    );
+
+    /* Slides */
+    var slidesHTML = fotos.length
+      ? fotos.map(function (f, i) {
+          return '<div class="vd-slide"><img src="' + esc(f) + '" alt="' + esc(v.marca + ' ' + v.modelo) + ' foto ' + (i+1) + '" loading="' + (i===0?'eager':'lazy') + '"></div>';
+        }).join('')
+      : '<div class="vd-slide vd-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 9l2-4h14l2 4M3 9v10h18V9"/><circle cx="12" cy="13" r="3"/></svg></div>';
+
+    /* Thumbs */
+    var thumbsHTML = fotos.length > 1
+      ? fotos.map(function (f, i) {
+          return '<div class="vd-thumb' + (i===0?' on':'') + '" data-i="' + i + '"><img src="' + esc(f) + '" alt="Miniatura ' + (i+1) + '" loading="lazy"></div>';
+        }).join('')
+      : '';
+
+    /* Specs */
+    var specs = [
+      { l: 'Año',         v: v.anyo },
+      { l: 'Kilómetros',  v: v.km != null ? fmtKm(v.km) : null },
+      { l: 'Combustible', v: v.combustible },
+      { l: 'Transmisión', v: v.transmision },
+      { l: 'Potencia',    v: v.potencia },
+      { l: 'Color',       v: v.color },
+      { l: 'Puertas',     v: v.puertas },
+    ].filter(function (s) { return s.v; });
+
+    var specsHTML = specs.map(function (s) {
+      return '<div class="vd-spec">' +
+        '<div class="vd-spec-lbl">' + esc(s.l) + '</div>' +
+        '<div class="vd-spec-val">' + esc(String(s.v)) + '</div>' +
+        '</div>';
+    }).join('');
+
+    var main = document.getElementById('vd-main');
+    main.innerHTML =
+      '<div class="vd-estado">' +
+        (v.destacado ? '<span class="badge-pill destacado">⭐ Destacado</span>' : '') +
+        '<span class="badge-pill ' + est + '">' + estLbl + '</span>' +
+      '</div>' +
+      '<div class="vd-grid">' +
+
+        /* ── Columna izquierda: slider ── */
+        '<div class="vd-slider">' +
+          '<div class="vd-stage">' +
+            '<div class="vd-track" id="vd-track">' + slidesHTML + '</div>' +
+            (fotos.length > 1 ? '<button class="vd-arr vd-arr-l" id="vd-prev" aria-label="Anterior">&#8249;</button>' : '') +
+            (fotos.length > 1 ? '<button class="vd-arr vd-arr-r" id="vd-next" aria-label="Siguiente">&#8250;</button>' : '') +
+            (fotos.length > 1 ? '<span class="vd-counter" id="vd-counter">1 / ' + fotos.length + '</span>' : '') +
+          '</div>' +
+          (fotos.length > 1 ? '<div class="vd-strip" id="vd-strip">' + thumbsHTML + '</div>' : '') +
+        '</div>' +
+
+        /* ── Columna derecha: info ── */
+        '<div class="vd-info">' +
+          '<div class="vd-marca">' + esc(v.marca) + '</div>' +
+          '<h1 class="vd-title">' + esc(v.modelo) + '</h1>' +
+          (v.version   ? '<div class="vd-version">' + esc(v.version) + '</div>' : '') +
+          (v.matricula ? '<div class="vd-matricula">🪪 ' + esc(v.matricula) + '</div>' : '') +
+          (specsHTML   ? '<div class="vd-specs">' + specsHTML + '</div>' : '') +
+          (v.descripcion ? '<p class="vd-desc">' + esc(v.descripcion) + '</p>' : '') +
+          '<div class="vd-pricebar">' +
+            '<div class="vd-price-lbl">Precio</div>' +
+            '<div class="vd-price">' + fmtP(v.precio) + '</div>' +
+            '<div class="vd-iva">IVA incluido · Financiación disponible</div>' +
+            '<div class="vd-ctas">' +
+              '<a class="btn-wa-full" href="https://wa.me/' + WA_NUM + '?text=' + waCita + '" target="_blank" rel="noopener noreferrer">' +
+                '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.526 5.842L0 24l6.293-1.654A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.645-.49-5.18-1.346l-.371-.22-3.735.981.997-3.644-.242-.376A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>' +
+                'Me interesa — WhatsApp' +
+              '</a>' +
+              '<a class="btn-tel-full" href="tel:+34' + TEL.replace(/\D/g,'') + '">📞 Llamar · ' + esc(TEL) + '</a>' +
+            '</div>' +
+          '</div>' +
+          '<button class="btn-share" id="btn-share" aria-label="Compartir enlace">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>' +
+            'Compartir enlace de este vehículo' +
+          '</button>' +
+        '</div>' +
+
+      '</div>';
+
+    /* ── Slider eventos ── */
+    var prev  = document.getElementById('vd-prev');
+    var next  = document.getElementById('vd-next');
+    var track = document.getElementById('vd-track');
+
+    if (prev) prev.addEventListener('click', function () { goTo(cur - 1); });
+    if (next) next.addEventListener('click', function () { goTo(cur + 1); });
+
+    document.querySelectorAll('.vd-thumb').forEach(function (t) {
+      t.addEventListener('click', function () { goTo(parseInt(t.dataset.i)); });
+    });
+
+    /* Swipe touch */
+    if (track && fotos.length > 1) {
+      var sx = 0;
+      track.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+      track.addEventListener('touchend',   function (e) {
+        var dx = e.changedTouches[0].clientX - sx;
+        if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+    }
+
+    /* Teclado */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft')  goTo(cur - 1);
+      if (e.key === 'ArrowRight') goTo(cur + 1);
+    });
+
+    /* ── Botón compartir ── */
+    var shareBtn = document.getElementById('btn-share');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', function () {
+        var url = location.href;
+        /* Usar Web Share API en móvil si está disponible */
+        if (navigator.share) {
+          navigator.share({
+            title: v.marca + ' ' + v.modelo + ' — Europa Jor',
+            text: '🚗 ' + v.marca + ' ' + v.modelo + (v.matricula ? ' (' + v.matricula + ')' : '') + ' · ' + fmtP(v.precio),
+            url: url,
+          }).catch(function () {});
+        } else {
+          /* Fallback: copiar al portapapeles */
+          navigator.clipboard.writeText(url).then(function () {
+            var toast = document.getElementById('share-toast');
+            if (toast) {
+              toast.classList.add('on');
+              setTimeout(function () { toast.classList.remove('on'); }, 2800);
+            }
+          }).catch(function () {
+            /* Último fallback: prompt */
+            window.prompt('Copia este enlace:', url);
+          });
+        }
+      });
+    }
+  }
+
+  /* ── RENDER ERROR ───────────────────────────────────── */
+  function renderError() {
+    var main = document.getElementById('vd-main');
+    main.innerHTML =
+      '<div class="vd-loading">' +
+        '<div style="font-size:3rem">🚗</div>' +
+        '<p style="font-size:1.1rem;font-weight:700;color:var(--white)">Vehículo no encontrado</p>' +
+        '<p>Es posible que ya no esté disponible.</p>' +
+        '<a href="vehiculos.html" style="color:var(--amber);font-weight:700;text-decoration:none;margin-top:8px">← Ver todos los vehículos</a>' +
+      '</div>';
+  }
+
+  /* ── INIT ───────────────────────────────────────────── */
+  async function init() {
+    if (!VEH_ID) { renderError(); return; }
+
+    var v = await loadVehiculo(VEH_ID);
+    if (!v || !v.marca) { renderError(); return; }
+
+    v.id = VEH_ID;
+    render(v);
+  }
+
+  /* Nav toggle mobile */
+  var navToggle = document.querySelector('.nav-toggle');
+  var mainNav   = document.getElementById('main-nav');
+  if (navToggle && mainNav) {
+    navToggle.addEventListener('click', function () {
+      var open = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!open));
+      mainNav.classList.toggle('open', !open);
+    });
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

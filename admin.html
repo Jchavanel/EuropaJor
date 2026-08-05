@@ -912,6 +912,33 @@
     }
     .btn-vf-save:hover { background: var(--amber-dk); }
     .btn-vf-save:disabled { opacity: .55; cursor: default; }
+    /* Bloque URL pública tras guardar */
+    .vf-share-url {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(26,122,60,.12); border: 1px solid rgba(26,122,60,.25);
+      border-radius: 10px; padding: 12px 14px; margin-top: 14px;
+    }
+    .vf-share-url-text {
+      font-family: var(--font-body); font-size: .8rem; font-weight: 600;
+      color: #4ade80; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .vf-share-url-lbl {
+      font-family: var(--font-body); font-size: .72rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase; color: rgba(74,222,128,.6);
+      flex-shrink: 0;
+    }
+    .btn-copy-url {
+      background: rgba(26,122,60,.2); border: none; border-radius: 7px;
+      color: #4ade80; font-family: var(--font-body); font-size: .78rem;
+      font-weight: 700; padding: 6px 12px; cursor: pointer; flex-shrink: 0;
+      transition: background .18s;
+    }
+    .btn-copy-url:hover { background: rgba(26,122,60,.35); }
+    .btn-open-url {
+      background: transparent; border: none; color: #4ade80;
+      font-size: 1rem; cursor: pointer; flex-shrink: 0; padding: 2px 4px;
+      text-decoration: none;
+    }
 
     /* Modal confirmar borrado */
     .del-confirm-overlay {
@@ -2536,14 +2563,18 @@
       saveBtn.disabled    = false;
       saveBtn.textContent = '💾 Guardar vehículo';
 
+      var publicURL = location.origin + '/vehiculo.html?id=' + id;
+
       if (result === 'firebase') {
         closeForm();
         renderList();
         showToast('✅ Vehículo guardado en Firebase');
+        showShareURL(publicURL);
       } else if (result === 'local' || result === true) {
         closeForm();
         renderList();
         showToast('💾 Guardado localmente — activa Firebase para sincronizar');
+        showShareURL(publicURL);
         var notice = document.getElementById('fb-notice-veh');
         if (notice) notice.style.display = 'flex';
       } else {
@@ -2586,6 +2617,29 @@
       showToast('❌ Error al eliminar', true);
     }
   });
+
+  /* ── MOSTRAR URL PÚBLICA TRAS GUARDAR ───────────────────────── */
+  function showShareURL(url) {
+    var list = document.getElementById('veh-list');
+    if (!list) return;
+    var existing = document.getElementById('veh-share-banner');
+    if (existing) existing.remove();
+    var banner = document.createElement('div');
+    banner.id = 'veh-share-banner';
+    banner.className = 'vf-share-url';
+    banner.innerHTML =
+      '<span class="vf-share-url-lbl">URL pública:</span>' +
+      '<span class="vf-share-url-text">' + url + '</span>' +
+      '<a class="btn-open-url" href="' + url + '" target="_blank" rel="noopener" title="Abrir">↗</a>' +
+      '<button class="btn-copy-url" id="btn-copy-url">Copiar</button>';
+    list.parentNode.insertBefore(banner, list);
+    document.getElementById('btn-copy-url').addEventListener('click', function () {
+      navigator.clipboard.writeText(url).then(function () {
+        showToast('📋 Enlace copiado');
+      }).catch(function () { window.prompt('Copia este enlace:', url); });
+    });
+    setTimeout(function () { if (banner.parentNode) banner.remove(); }, 15000);
+  }
 
   /* ── BOTÓN AÑADIR ────────────────────────────────────────────── */
   var btnAdd = document.getElementById('btn-add-veh');
