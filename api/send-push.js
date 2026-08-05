@@ -33,7 +33,7 @@ module.exports = async function handler(req, res) {
     webpush.setVapidDetails(VAPID_EMAIL, VAPID_PUBLIC, VAPID_PRIVATE);
 
     const notification = JSON.stringify({
-      title:    payload.title   || '🔧 Nueva cita — Europa Jor',
+      title:    payload.title   || '\u{1F527} Nueva cita \u2014 Europa Jor',
       body:     payload.body    || 'Tienes una nueva reserva',
       icon:     '/assets/icons/icon-192.png',
       badge:    '/assets/icons/badge-96.png',
