@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vehículos de ocasión revisados en taller propio | Europa Jor Vecindario, Gran Canaria</title>
-  <meta name="description" content="Vehículos de ocasión revisados en taller propio en Vecindario, Gran Canaria. Coches de segunda mano garantizados, listos para entrega y con financiación disponible en Europa Jor.">
+  <title>Vehículos de Ocasión — Europa Jor Automotive Service | Vecindario, Gran Canaria</title>
+  <meta name="description" content="Coches de segunda mano revisados y garantizados en Vecindario, Gran Canaria. Financiación disponible. Europa Jor Automotive Service.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://europajor.es/vehiculos.html">
   <link rel="icon" type="image/png" href="assets/brand/favicon/favicon.png">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0A0A0A">
   <meta property="og:type"        content="website">
-  <meta property="og:title"       content="Vehículos de ocasión revisados en taller propio — Europa Jor">
-  <meta property="og:description" content="Vehículos de ocasión revisados por mecánicos expertos en Vecindario, Gran Canaria, con entrega lista y garantía mecánica.">
+  <meta property="og:title"       content="Vehículos de Ocasión — Europa Jor">
+  <meta property="og:description" content="Coches de segunda mano revisados por mecánicos expertos en Vecindario, Gran Canaria.">
   <meta property="og:url"         content="https://europajor.es/vehiculos.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -347,8 +347,8 @@
 <section class="veh-hero" aria-label="Cabecera vehículos">
   <div class="wrap hero-inner">
     <div class="hero-tag">Europa Jor · Ocasión</div>
-    <h1 class="hero-h1">Vehículos de<br><em>ocasión</em></h1>
-    <p class="hero-sub">Todos los vehículos pasan por nuestra revisión completa de 25 puntos en nuestro taller multimarca de Vecindario antes de ponerse a la venta.</p>
+    <h1 class="hero-h1">Coches de<br><em>ocasión</em></h1>
+    <p class="hero-sub">Todos los vehículos pasan por nuestra revisión completa de 25 puntos antes de ponerse a la venta.</p>
     <div class="hero-badges">
       <span class="hero-badge">✔ Revisados en taller propio</span>
       <span class="hero-badge">✔ Historial verificado</span>
@@ -359,10 +359,31 @@
 </section>
 
 <!-- ══ FILTROS ══ -->
-<div class="filter-bar" role="search" aria-label="Buscar vehículos">
+<div class="filter-bar" role="search" aria-label="Filtrar vehículos">
   <div class="wrap filter-inner">
-    <span class="filter-lbl">Buscar</span>
-    <input type="search" class="f-input" id="f-search" placeholder="Marca, modelo o versión…" autocomplete="off" aria-label="Buscar vehículo">
+    <span class="filter-lbl">Filtrar</span>
+    <input  type="search"  class="f-input"  id="f-search"     placeholder="Marca, modelo…"  autocomplete="off" aria-label="Buscar">
+    <select class="f-select" id="f-marca"    aria-label="Filtrar por marca">
+      <option value="">Todas las marcas</option>
+    </select>
+    <select class="f-select" id="f-comb"     aria-label="Filtrar por combustible">
+      <option value="">Combustible</option>
+      <option>Gasolina</option><option>Diésel</option><option>Híbrido</option>
+      <option>Híbrido enchufable</option><option>Eléctrico</option><option>GLP</option>
+    </select>
+    <select class="f-select" id="f-precio"   aria-label="Precio máximo">
+      <option value="">Precio máx.</option>
+      <option value="5000">Hasta 5.000 €</option>
+      <option value="10000">Hasta 10.000 €</option>
+      <option value="15000">Hasta 15.000 €</option>
+      <option value="20000">Hasta 20.000 €</option>
+      <option value="30000">Hasta 30.000 €</option>
+    </select>
+    <select class="f-select" id="f-estado"   aria-label="Filtrar por estado">
+      <option value="">Todos</option>
+      <option value="disponible">Disponibles</option>
+      <option value="reservado">Reservados</option>
+    </select>
     <span class="filter-count"><strong id="count-n">0</strong> vehículos</span>
   </div>
 </div>
@@ -399,7 +420,7 @@
       <h4>Ocasión</h4>
       <ul>
         <li><a href="vehiculos.html">Ver todos los coches</a></li>
-        <li><a href="vehiculos.html">Catálogo disponible</a></li>
+        <li><a href="vehiculos.html?f=disponible">Disponibles</a></li>
         <li><a href="index.html#cita">Reservar prueba de conducción</a></li>
       </ul>
     </div>
@@ -508,7 +529,7 @@
         '<div class="veh-empty">' +
           '<div class="veh-empty-icon">🚗</div>' +
           '<h3>Sin vehículos</h3>' +
-          '<p>No hay vehículos que coincidan con tu búsqueda.<br>Prueba con otra marca, modelo o versión.</p>' +
+          '<p>No hay coches con los filtros seleccionados.<br>Prueba a ampliar la búsqueda.</p>' +
         '</div>';
       return;
     }
@@ -788,13 +809,21 @@
 
   /* ── FILTROS ─────────────────────────────────────────── */
   function applyFilters() {
-    var txt = (document.getElementById('f-search').value || '').toLowerCase().trim();
+    var txt    = (document.getElementById('f-search').value  || '').toLowerCase();
+    var marca  = (document.getElementById('f-marca').value   || '').toLowerCase();
+    var comb   = document.getElementById('f-comb').value    || '';
+    var precioMax = parseInt(document.getElementById('f-precio').value) || Infinity;
+    var estado = document.getElementById('f-estado').value  || '';
 
     filtered = all.filter(function (v) {
-      if (!txt) return true;
-      return [v.marca, v.modelo, v.version].some(function (s) {
+      if (txt && ![v.marca, v.modelo, v.version].some(function (s) {
         return s && s.toLowerCase().includes(txt);
-      });
+      })) return false;
+      if (marca  && (v.marca  || '').toLowerCase() !== marca)  return false;
+      if (comb   && v.combustible !== comb)  return false;
+      if (v.precio > precioMax) return false;
+      if (estado && v.estado !== estado)    return false;
+      return true;
     });
 
     /* Orden: destacados → disponibles → reservados → vendidos → precio asc */
@@ -817,15 +846,27 @@
       var v = raw[id]; v.id = id; return v;
     });
 
+    /* Poblar filtro de marcas */
+    var marcas = Array.from(new Set(all.map(function (v) { return v.marca; }).filter(Boolean))).sort();
+    var sel = document.getElementById('f-marca');
+    sel.innerHTML = '<option value="">Todas las marcas</option>' +
+      marcas.map(function (m) { return '<option value="' + m.toLowerCase() + '">' + esc(m) + '</option>'; }).join('');
+
+    /* Leer ?f=estado de la URL */
+    var urlF = new URLSearchParams(location.search).get('f');
+    if (urlF) {
+      var fEl = document.getElementById('f-estado');
+      if (fEl) fEl.value = urlF;
+    }
+
     applyFilters();
   }
 
-  /* Listener búsqueda */
-  var searchInput = document.getElementById('f-search');
-  if (searchInput) {
-    searchInput.addEventListener('input', applyFilters);
-    searchInput.addEventListener('search', applyFilters);
-  }
+  /* Listeners filtros */
+  ['f-search', 'f-marca', 'f-comb', 'f-precio', 'f-estado'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) { el.addEventListener('input', applyFilters); el.addEventListener('change', applyFilters); }
+  });
 
   /* Nav toggle mobile */
   var navToggle = document.querySelector('.nav-toggle');

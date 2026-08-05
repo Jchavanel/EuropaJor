@@ -167,8 +167,40 @@
   </style>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/firebase-db.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
 </head>
 <body>
+
+<header class="site-header" id="inicio">
+  <div class="wrap nav-wrap">
+    <a class="brand" href="index.html" aria-label="Europa Jor Automotive Service — Inicio">
+      <div class="brand-logo">
+        <img src="assets/brand/logo/logo-europa-jor.png" alt="Europa Jor"
+             width="80" height="54" fetchpriority="high" decoding="async">
+      </div>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav"
+            aria-label="Abrir menú de navegación">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
+      <ul role="list">
+        <li><a href="index.html#servicios">Servicios</a></li>
+        <li><a href="index.html#taller">Taller</a></li>
+        <li><a href="vehiculos.html">Vehículos</a></li>
+        <li><a href="index.html#opiniones">Opiniones</a></li>
+        <li><a href="index.html#contacto">Contacto</a></li>
+        <li><a href="index.html#cita" class="nav-cta">Pedir cita</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
 
   <div class="logo-top">EUROPA JOR · AUTOMOTIVE SERVICE</div>
 
