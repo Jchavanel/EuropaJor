@@ -70,6 +70,10 @@
   text-decoration: none;
 }
 .brand-logo {
+  width: auto;
+  height: 80px;
+  background: transparent;
+  border-radius: 0;
   display: flex;
   align-items: center;
   flex-shrink: 0;
@@ -77,11 +81,12 @@
 }
 .brand:hover .brand-logo { transform: scale(1.04); }
 .brand-logo img {
-  height: 44px;
+  height: 80px;
   width: auto;
+  max-width: 320px;
   object-fit: contain;
-  mix-blend-mode: screen;
   display: block;
+  mix-blend-mode: screen;
 }
 /* Fallback SVG si no hay imagen */
 .brand-logo svg { position: relative; z-index: 1; }
